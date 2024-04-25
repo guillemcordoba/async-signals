@@ -1,0 +1,32 @@
+{
+  "name": "async-signals",
+  "version": "0.1.0",
+  "description": "Synthatic sugar and utilities to support async tasks on top of signal-polyfill",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": ["src", "dist"],
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillemcordoba/async-signals.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guillemcordoba/async-signals/issues"
+  },
+  "homepage": "https://github.com/guillemcordoba/async-signals#readme",
+  "dependencies": {
+    "lit": "^3.0.0",
+    "signal-polyfill": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.0",
+    "vitest": "^1.5.1"
+  }
+}
