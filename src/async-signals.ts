@@ -93,8 +93,10 @@ export function fromPromise<T>(task: () => Promise<T>): AsyncSignal<T> {
       [Signal.subtle.unwatched]: () => {
         // We revert back to pending state so that the next time this signal is queried,
         // the backend request is sent again
-        signal.set({
-          status: "pending",
+        setTimeout(() => {
+          signal.set({
+            status: "pending",
+          });
         });
       },
     },
