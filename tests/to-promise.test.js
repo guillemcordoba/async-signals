@@ -55,3 +55,11 @@ it("to-promise subscribes every time", async () => {
 
   expect(subscriberCount).to.equal(2);
 });
+
+it("to-promise returns instantly if value is resolved", async () => {
+  const asyncState = new AsyncState({ status: "completed", value: 1 });
+
+  const value = await toPromise(asyncState);
+
+  expect(value).to.equal(1);
+});

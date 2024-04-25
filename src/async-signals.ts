@@ -34,6 +34,15 @@ export function toPromise<T, E = unknown>(
   asyncSignal: AsyncSignal<T, E>,
 ): Promise<T> {
   return new Promise((resolve, reject) => {
+    // If the signal is not pending, return immediately
+    const result = asyncSignal.get();
+    if (result.status === "completed") {
+      resolve(result.value);
+    } else if (result.status === "error") {
+      reject(result.error);
+      return;
+    }
+
     const w = new Signal.subtle.Watcher(() => {
       setTimeout(() => {
         const result = asyncSignal.get();
