@@ -1,7 +1,5 @@
 import { AsyncResult } from "./async-signals.js";
 
-type AsyncResultValue<T> = T extends AsyncResult<infer U> ? U : never;
-
 /**
  * Defines the behavior of the joining of the `AsyncResults`
  */
@@ -159,25 +157,25 @@ export function joinAsync<T>(
 /**
  * Joins all the results in a HashMap of `AsyncResults`
  */
-export function joinAsyncMap<K, V extends AsyncResult<any>>(
-  map: ReadonlyMap<K, V>,
+export function joinAsyncMap<K, V>(
+  map: ReadonlyMap<K, AsyncResult<V>>,
   joinOptions?: JoinAsyncOptions,
-): AsyncResult<ReadonlyMap<K, AsyncResultValue<V>>> {
+): AsyncResult<ReadonlyMap<K, V>> {
   const resultsArray = Array.from(map.entries()).map(([key, result]) => {
     if (result.status !== "completed") return result;
-    const value = [key, result.value] as [K, AsyncResultValue<V>];
+    const value = [key, result.value] as [K, V];
     return {
       status: "completed",
       value,
-    } as AsyncResult<[K, AsyncResultValue<V>]>;
+    } as AsyncResult<[K, V]>;
   });
   const arrayResult = joinAsync(resultsArray, joinOptions);
 
   if (arrayResult.status !== "completed") return arrayResult;
 
-  const value = new Map<K, AsyncResultValue<V>>(arrayResult.value);
+  const value = new Map<K, V>(arrayResult.value);
   return {
     status: "completed",
     value,
-  } as AsyncResult<ReadonlyMap<K, AsyncResultValue<V>>>;
+  } as AsyncResult<ReadonlyMap<K, V>>;
 }
