@@ -1,7 +1,9 @@
-import { AsyncComputed, AsyncResult, AsyncSignal } from "./async-signals.js";
+import { AsyncResult } from "./async-signals.js";
+
+type AsyncResultValue<T> = T extends AsyncResult<infer U> ? U : never;
 
 /**
- * Defines the behavior of the joining of the `AsyncSignals`
+ * Defines the behavior of the joining of the `AsyncResults`
  */
 export interface JoinAsyncOptions {
   /**
@@ -17,107 +19,107 @@ export interface JoinAsyncOptions {
 }
 
 /**
- *  Joins an array of `AsyncSignals` into a single `AsyncSignal` of the array of values
+ *  Joins an array of `AsyncResults` into a single `AsyncResult` of the array of values
  */
 export function joinAsync<T>(
-  signals: [AsyncSignal<T>],
+  results: [AsyncResult<T>],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T]>;
+): AsyncResult<[T]>;
 export function joinAsync<T, U>(
-  signals: [AsyncSignal<T>, AsyncSignal<U>],
+  results: [AsyncResult<T>, AsyncResult<U>],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U]>;
+): AsyncResult<[T, U]>;
 export function joinAsync<T, U, V>(
-  signals: [AsyncSignal<T>, AsyncSignal<U>, AsyncSignal<V>],
+  results: [AsyncResult<T>, AsyncResult<U>, AsyncResult<V>],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V]>;
+): AsyncResult<[T, U, V]>;
 export function joinAsync<T, U, V, W>(
-  signals: [AsyncSignal<T>, AsyncSignal<U>, AsyncSignal<V>, AsyncSignal<W>],
+  results: [AsyncResult<T>, AsyncResult<U>, AsyncResult<V>, AsyncResult<W>],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W]>;
+): AsyncResult<[T, U, V, W]>;
 export function joinAsync<T, U, V, W, X>(
-  signals: [
-    AsyncSignal<T>,
-    AsyncSignal<U>,
-    AsyncSignal<V>,
-    AsyncSignal<W>,
-    AsyncSignal<X>,
+  results: [
+    AsyncResult<T>,
+    AsyncResult<U>,
+    AsyncResult<V>,
+    AsyncResult<W>,
+    AsyncResult<X>,
   ],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W, X]>;
+): AsyncResult<[T, U, V, W, X]>;
 export function joinAsync<T, U, V, W, X, Y>(
-  signals: [
-    AsyncSignal<T>,
-    AsyncSignal<U>,
-    AsyncSignal<V>,
-    AsyncSignal<W>,
-    AsyncSignal<X>,
-    AsyncSignal<Y>,
+  results: [
+    AsyncResult<T>,
+    AsyncResult<U>,
+    AsyncResult<V>,
+    AsyncResult<W>,
+    AsyncResult<X>,
+    AsyncResult<Y>,
   ],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W, X, Y]>;
+): AsyncResult<[T, U, V, W, X, Y]>;
 export function joinAsync<T, U, V, W, X, Y, Z>(
-  signals: [
-    AsyncSignal<T>,
-    AsyncSignal<U>,
-    AsyncSignal<V>,
-    AsyncSignal<W>,
-    AsyncSignal<X>,
-    AsyncSignal<Y>,
-    AsyncSignal<Z>,
+  results: [
+    AsyncResult<T>,
+    AsyncResult<U>,
+    AsyncResult<V>,
+    AsyncResult<W>,
+    AsyncResult<X>,
+    AsyncResult<Y>,
+    AsyncResult<Z>,
   ],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W, X, Y, Z]>;
+): AsyncResult<[T, U, V, W, X, Y, Z]>;
 export function joinAsync<T, U, V, W, X, Y, Z, A>(
-  signals: [
-    AsyncSignal<T>,
-    AsyncSignal<U>,
-    AsyncSignal<V>,
-    AsyncSignal<W>,
-    AsyncSignal<X>,
-    AsyncSignal<Y>,
-    AsyncSignal<Z>,
-    AsyncSignal<A>,
+  results: [
+    AsyncResult<T>,
+    AsyncResult<U>,
+    AsyncResult<V>,
+    AsyncResult<W>,
+    AsyncResult<X>,
+    AsyncResult<Y>,
+    AsyncResult<Z>,
+    AsyncResult<A>,
   ],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W, X, Y, Z, A]>;
+): AsyncResult<[T, U, V, W, X, Y, Z, A]>;
 export function joinAsync<T, U, V, W, X, Y, Z, A, B>(
-  signals: [
-    AsyncSignal<T>,
-    AsyncSignal<U>,
-    AsyncSignal<V>,
-    AsyncSignal<W>,
-    AsyncSignal<X>,
-    AsyncSignal<Y>,
-    AsyncSignal<Z>,
-    AsyncSignal<A>,
-    AsyncSignal<B>,
+  results: [
+    AsyncResult<T>,
+    AsyncResult<U>,
+    AsyncResult<V>,
+    AsyncResult<W>,
+    AsyncResult<X>,
+    AsyncResult<Y>,
+    AsyncResult<Z>,
+    AsyncResult<A>,
+    AsyncResult<B>,
   ],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W, X, Y, Z, A, B]>;
+): AsyncResult<[T, U, V, W, X, Y, Z, A, B]>;
 export function joinAsync<T, U, V, W, X, Y, Z, A, B, C>(
-  signals: [
-    AsyncSignal<T>,
-    AsyncSignal<U>,
-    AsyncSignal<V>,
-    AsyncSignal<W>,
-    AsyncSignal<X>,
-    AsyncSignal<Y>,
-    AsyncSignal<Z>,
-    AsyncSignal<A>,
-    AsyncSignal<B>,
-    AsyncSignal<C>,
+  results: [
+    AsyncResult<T>,
+    AsyncResult<U>,
+    AsyncResult<V>,
+    AsyncResult<W>,
+    AsyncResult<X>,
+    AsyncResult<Y>,
+    AsyncResult<Z>,
+    AsyncResult<A>,
+    AsyncResult<B>,
+    AsyncResult<C>,
   ],
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<[T, U, V, W, X, Y, Z, A, B, C]>;
+): AsyncResult<[T, U, V, W, X, Y, Z, A, B, C]>;
 export function joinAsync<T>(
-  signals: Array<AsyncSignal<T>>,
+  results: Array<AsyncResult<T>>,
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<Array<T>>;
+): AsyncResult<Array<T>>;
 export function joinAsync<T>(
-  signals: Array<AsyncSignal<T>>,
+  results: Array<AsyncResult<T>>,
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<Array<T>> {
+): AsyncResult<Array<T>> {
   let options = {
     errors: "bubble",
     pendings: "bubble",
@@ -128,64 +130,54 @@ export function joinAsync<T>(
       ...joinOptions,
     };
   }
-  return new AsyncComputed(() => {
-    const values = signals.map((s) => s.get());
-    if (options.errors === "bubble") {
-      const firstError = values.find(
-        (v) => v && (v as AsyncResult<any>).status === "error",
-      );
-      if (firstError) {
-        return firstError as AsyncResult<T[]>;
-      }
+  if (options.errors === "bubble") {
+    const firstError = results.find(
+      (v) => v && (v as AsyncResult<any>).status === "error",
+    );
+    if (firstError) {
+      return firstError as AsyncResult<T[]>;
     }
-    if (options.pendings === "bubble") {
-      const firstLoading = values.find(
-        (v) => v && (v as AsyncResult<any>).status === "pending",
-      );
-      if (firstLoading) {
-        return firstLoading as AsyncResult<T[]>;
-      }
+  }
+  if (options.pendings === "bubble") {
+    const firstLoading = results.find(
+      (v) => v && (v as AsyncResult<any>).status === "pending",
+    );
+    if (firstLoading) {
+      return firstLoading as AsyncResult<T[]>;
     }
+  }
 
-    const v = values
-      .filter((v) => v.status === "completed")
-      .map((v) => (v as any).value as T);
-    return {
-      status: "completed",
-      value: v,
-    } as AsyncResult<T[]>;
-  });
+  const v = results
+    .filter((v) => v.status === "completed")
+    .map((v) => (v as any).value as T);
+  return {
+    status: "completed",
+    value: v,
+  } as AsyncResult<T[]>;
 }
 
 /**
- * Joins all the results in a HashMap of `AsyncSignals`
+ * Joins all the results in a HashMap of `AsyncResults`
  */
-export function joinAsyncMap<K, T, V extends AsyncSignal<any>>(
+export function joinAsyncMap<K, V extends AsyncResult<any>>(
   map: ReadonlyMap<K, V>,
   joinOptions?: JoinAsyncOptions,
-): AsyncSignal<ReadonlyMap<K, T>> {
-  const signalArray = Array.from(map.entries()).map(
-    ([key, signal]) =>
-      new AsyncComputed<[K, T]>(() => {
-        const result = signal.get();
-        if (result.status !== "completed") return result;
-        const value = [key, result.value] as [K, T];
-        return {
-          status: "completed",
-          value,
-        };
-      }),
-  );
-  const arraySignal = joinAsync(signalArray, joinOptions);
-
-  return new AsyncComputed(() => {
-    const result = arraySignal.get();
+): AsyncResult<ReadonlyMap<K, AsyncResultValue<V>>> {
+  const resultsArray = Array.from(map.entries()).map(([key, result]) => {
     if (result.status !== "completed") return result;
-
-    const value = new Map(result.value);
+    const value = [key, result.value] as [K, AsyncResultValue<V>];
     return {
       status: "completed",
       value,
-    } as AsyncResult<ReadonlyMap<K, T>>;
+    } as AsyncResult<[K, AsyncResultValue<V>]>;
   });
+  const arrayResult = joinAsync(resultsArray, joinOptions);
+
+  if (arrayResult.status !== "completed") return arrayResult;
+
+  const value = new Map<K, AsyncResultValue<V>>(arrayResult.value);
+  return {
+    status: "completed",
+    value,
+  } as AsyncResult<ReadonlyMap<K, AsyncResultValue<V>>>;
 }

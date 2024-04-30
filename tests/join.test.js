@@ -2,6 +2,15 @@ import { expect, it } from "vitest";
 import { Signal } from "signal-polyfill";
 import { AsyncComputed, fromPromise, joinAsyncMap } from "../src";
 
+function mapValues(map, mappingFn) {
+  const mappedMap = new Map();
+
+  for (const [key, value] of map.entries()) {
+    mappedMap.set(key, mappingFn(value, key));
+  }
+  return mappedMap;
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(() => r(), ms));
 
 class LazyMap extends Map {
@@ -31,7 +40,10 @@ it("joinAsyncMap", async () => {
     lazyMap.get(h);
   }
 
-  const j = joinAsyncMap(lazyMap);
+  const j = new AsyncComputed(() =>
+    joinAsyncMap(mapValues(lazyMap, (s) => s.get())),
+  );
+
   const w = new Signal.subtle.Watcher(() => {});
   w.watch(j);
 
@@ -60,9 +72,14 @@ it("joinAsyncMap with error filtering", async () => {
     lazyMap.get(h);
   }
 
-  const j = joinAsyncMap(lazyMap, {
-    errors: "filter_out",
-  });
+  const j = new AsyncComputed(() =>
+    joinAsyncMap(
+      mapValues(lazyMap, (s) => s.get()),
+      {
+        errors: "filter_out",
+      },
+    ),
+  );
 
   const w = new Signal.subtle.Watcher(() => {});
   w.watch(j);
