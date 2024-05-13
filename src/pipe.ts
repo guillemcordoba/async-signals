@@ -19,11 +19,12 @@ function isPromise(p) {
     typeof p.then === "function"
   );
 }
-function pipeStep<V, T>(
-  signal: AsyncSignal<V>,
-  stepFn: (arg: V, ...previousValue: any[]) => PipeStep<T>,
+
+function pipeStep<T, U>(
+  signal: AsyncSignal<T>,
+  stepFn: (arg: T, ...previousValue: any[]) => PipeStep<U>,
   previoussignals: Array<AsyncSignal<any>>,
-): AsyncSignal<T> {
+): AsyncSignal<U> {
   const stepResult = new Signal.Computed(() => {
     const values = [signal, ...previoussignals].map((s) => s.get());
     let value = values[0];
@@ -34,7 +35,7 @@ function pipeStep<V, T>(
     }
     try {
       const v = stepFn(
-        value as V,
+        value as T,
         ...values
           .slice(1)
           .map((v) => (v as any).value)
@@ -58,18 +59,18 @@ function pipeStep<V, T>(
     c.get();
     const result = stepResult.get();
     if (!!result && (result as AnySignal<any>).get) {
-      const value = (result as AnySignal<T>).get();
-      if (!!value && (value as AsyncResult<T>).status) {
+      const value = (result as AnySignal<U>).get();
+      if (!!value && (value as AsyncResult<U>).status) {
         return value;
       } else {
         return { status: "completed", value };
       }
     } else if (isPromise(result)) {
       if (!cachedSignal) {
-        cachedSignal = fromPromise(() => result as Promise<T>);
+        cachedSignal = fromPromise(() => result as Promise<U>);
       }
       return cachedSignal.get();
-    } else if (!!result && (result as AsyncResult<T>).status) {
+    } else if (!!result && (result as AsyncResult<U>).status) {
       return result;
     } else {
       return { status: "completed", value: result };
@@ -142,17 +143,17 @@ export function pipe<T, U, V, W, X, Y>(
 export function pipe<T, U, V, W, X, Y, Z>(
   signal: PipeInput<T>,
   fn1: (arg: T) => PipeStep<U>,
-  fn2: (arg: U, prevArg: T) => PipeStep<V>,
-  fn3: (arg: V, prevArg0: U, prevArg1: T) => PipeStep<W>,
-  fn4: (arg: W, prevArg0: V, prevArg1: U, prevArg2: T) => PipeStep<X>,
-  fn5: (
+  fn2?: (arg: U, prevArg: T) => PipeStep<V>,
+  fn3?: (arg: V, prevArg0: U, prevArg1: T) => PipeStep<W>,
+  fn4?: (arg: W, prevArg0: V, prevArg1: U, prevArg2: T) => PipeStep<X>,
+  fn5?: (
     arg: X,
     prevArg0: W,
     prevArg1: V,
     prevArg2: U,
     prevArg3: T,
   ) => PipeStep<Y>,
-  fn6: (
+  fn6?: (
     arg: Y,
     prevArg0: X,
     prevArg1: W,

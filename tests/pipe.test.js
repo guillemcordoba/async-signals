@@ -126,6 +126,37 @@ it("pipe with fromPromise", async () => {
   });
 });
 
+it.only("pipe with 3 fromPromise", async () => {
+  const asyncSignal = fromPromise(async () => {
+    await sleep(10);
+    return "hi";
+  });
+  const pipeStore = pipe(
+    asyncSignal,
+    (s) => {
+      return fromPromise(async () => {
+        await sleep(1);
+        return `${s}hi`;
+      });
+    },
+    (s) => {
+      return fromPromise(async () => {
+        await sleep(1);
+        return `${s}hi`;
+      });
+    },
+  );
+  watch(pipeStore, () => {});
+
+  expect(pipeStore.get()).to.deep.equal({ status: "pending" });
+  await sleep(20);
+
+  expect(pipeStore.get()).to.deep.equal({
+    status: "completed",
+    value: "hihihi",
+  });
+});
+
 it("pipe with all types", async () => {
   const asyncSignal = fromPromise(async () => {
     await sleep(10);
