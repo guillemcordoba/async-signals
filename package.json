@@ -1,6 +1,6 @@
 {
   "name": "async-signals",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "Synthatic sugar and utilities to support async tasks on top of signal-polyfill",
   "main": "dist/index.js",
   "module": "dist/index.js",

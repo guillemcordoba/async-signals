@@ -5,7 +5,7 @@ import { fromPromise } from "../src";
 
 const sleep = (ms) => new Promise((r) => setTimeout(() => r(), ms));
 
-it("to-promise subscribes every time", async () => {
+it("from-promise subscribes every time", async () => {
   const signal = fromPromise(async () => {
     await sleep(10);
     return 1;
